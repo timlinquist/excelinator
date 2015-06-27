@@ -20,7 +20,7 @@ describe Excelinator do
                           when /^1.9/
                             "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1".force_encoding('US-ASCII')
                           when /^2/
-                            "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1\x00\x00"
+                            "\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1".force_encoding('ASCII-8BIT')
                         end
   }
 
