@@ -7,7 +7,26 @@ module Excelinator
     content =~ /<table/ ? Excelinator.html_as_xls(content) : Excelinator.csv_to_xls(content)
   end
 
-def self.csv_to_xls(csv_content)
+  def self.array_to_xls(array)
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet
+    array.each_with_index do |row_data, index|
+      row = sheet.row(index)
+      row_data.each_with_index do |cell_data, row_index|
+        if cell_data.kind_of?(Date)
+          row.add_cell cell_data, Spreadsheet::Format.new(:number_format => 'MM/DD/YYYY')
+        else
+          row.add_cell cell_data
+        end
+      end
+    end
+    content = ''
+    ios = StringIO.new(content)
+    book.write(ios)
+    content
+  end
+
+  def self.csv_to_xls(csv_content)
     ary = (!old_ruby? ? CSV : FasterCSV).parse(csv_content)
 
     book = Spreadsheet::Workbook.new
